@@ -1,30 +1,59 @@
 import React from 'react';
-import { View, Text, StyleSheet, Image} from 'react-native'
+import {useState} from 'react'
+import { View, Text, StyleSheet, FlatList} from 'react-native'
+import Header from './components/Header'
+import ListItem from './components/ListItem'
+import 'react-native-get-random-values';
+import { v4 as uuidv4 } from 'uuid';
 
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center',
-    backgroundColor: 'white'
   },
   title: {
-    color: 'darkslateblue',
+    color: 'black',
     fontSize: 40,
   },
-  img: {
-    width: 100,
-    height: 100,
-    borderRadius: 100/2
+  item: {
+    backgroundColor: '#f9c2ff',
+    padding: 20,
+    marginVertical: 8,
+    marginHorizontal: 16,
   },
 })
+
+
 const App = () => {
+
+  const renderItem = ({ item }) => (
+    <Item title={item.title} />
+  );
+
+  const [items, setItems] = useState([
+    {id:uuidv4(), text: 'Milk'},
+    {id:uuidv4(), text: 'Eggs'},
+    {id:uuidv4(), text: 'Bread'},
+    {id:uuidv4(), text: 'Ice cream'},
+  ]);
+
+  const removeItem = (id) => {
+    setItems(items.filter((item) => item.id !== id));
+  };
+
+
+
   return ( 
     <View style={styles.container}>
-      <Text style={styles.title}>
-        Hello World
-      </Text>
-      <Image source={{uri: 'https://randomuser.me/api/portraits/men/1.jpg'}} style={styles.img}></Image>
+      <Header title="Shopping List"/>
+
+      <FlatList
+        data={items}
+        renderItem={({item})=> <ListItem item={item} removeItem={removeItem}/>}
+        keyExtractor={item => item.id}
+      />
+
+
+      
     </View>
    );
 }
