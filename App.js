@@ -1,10 +1,11 @@
 import React from 'react';
 import {useState} from 'react'
-import { View, Text, StyleSheet, FlatList} from 'react-native'
+import { View, Text, StyleSheet, FlatList } from 'react-native'
 import Header from './components/Header'
 import ListItem from './components/ListItem'
 import 'react-native-get-random-values';
 import { v4 as uuidv4 } from 'uuid';
+import TextBox from './components/TextBox';
 
 const styles = StyleSheet.create({
   container: {
@@ -40,11 +41,18 @@ const App = () => {
     setItems(items.filter((item) => item.id !== id));
   };
 
+  const addItem = (item) => {
+    const newItem = {id:uuidv4(), text: item}
+    setItems(items.concat(newItem));
+  };
+
 
 
   return ( 
     <View style={styles.container}>
       <Header title="Shopping List"/>
+
+      <TextBox addItem={addItem}/>
 
       <FlatList
         data={items}

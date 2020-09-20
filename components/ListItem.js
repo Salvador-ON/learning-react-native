@@ -26,7 +26,7 @@ const ListItem = ({item, removeItem}) => {
         <Text style={styles.listItemText}>
           {item.text}
         </Text>
-        <Icon name="remove" size={28} color="firebrick"/>
+        <Icon name="remove" size={28} color="firebrick" onPress={() => {removeItem(item.id)}}/>
       </View>
     </TouchableOpacity>
    );
